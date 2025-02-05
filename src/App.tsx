@@ -1,9 +1,17 @@
+import { ThemeProvider } from '@emotion/react'
 import './App.css'
+import { theme } from '@pagopa/mui-italia'
+import { BrowserRouter as Router } from "react-router-dom";
+import RoutesList from './routing/Routes';
 
 function App() {
 
   return (
-    <p>ID PAY</p>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <RoutesList />
+      </Router>
+    </ThemeProvider>
   )
 }
 

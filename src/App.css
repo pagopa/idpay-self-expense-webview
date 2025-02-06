@@ -1,0 +1,26 @@
+.MuiInputBase-input {
+    font-size: 16px !important;
+}
+
+.MuiInputLabel-root {
+    font-size: 16px !important;
+}
+
+.MuiInputAdornment-root {
+    margin-right: 3.5px !important;
+}
+
+.MuiInputBase-root {
+    padding-left: 12px !important
+}
+ 
+.MuiInputAdornment-root svg {
+    color: #5C6F82;
+}
+
+.custom-wrapp .MuiBox-root {
+    min-height: 161px !important;
+    gap: 12px;
+    display: flex;
+    flex-direction: column;
+}

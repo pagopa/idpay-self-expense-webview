@@ -1,15 +1,18 @@
-import { useForm, FormProvider } from "react-hook-form"
+import { useForm, FormProvider, SubmitHandler } from "react-hook-form"
 import { Button, Grid2, InputAdornment } from "@mui/material";
 import { getRegex } from "../utils/form-regex";
 import EuroIcon from '@mui/icons-material/Euro';
 import * as Input from "../components/inputs/index";
+import { DataForm } from "../types/idpay-types";
+import { mapFormToDTO } from "../utils/form-mapper";
 
 export default function FormComponent() {
 
-    const methods = useForm();
+    const methods = useForm<DataForm>();
 
-    const onSubmit = async (data) => {
-        console.log(data)
+    const onSubmit: SubmitHandler<DataForm> = async (formData: DataForm) => {
+        const dto = await mapFormToDTO(formData, "Mario", "Rossi", "INIT");
+        console.log(dto)
     }
 
     return (
@@ -17,7 +20,7 @@ export default function FormComponent() {
             <form onSubmit={methods.handleSubmit(onSubmit)}>
                 <Grid2 container rowSpacing={3} columnSpacing={3}>
                     <Grid2 size={12}>
-                        <Input.Select rules={{required: true}} name="child" label="Indica il figlio" placeholder="Indica il figlio" />
+                        <Input.Select rules={{required: true}} name="entityId" label="Indica il figlio" placeholder="Indica il figlio" />
                     </Grid2>
                     <Grid2 size={6}>
                         <Input.NumericInput
@@ -39,19 +42,20 @@ export default function FormComponent() {
                         />
                     </Grid2>
                     <Grid2 size={6}>
-                        <Input.DatePicker rules={{required: true}} name={'data'} label='Data della spesa' placeholder='Data della spesa' />
+                        <Input.DatePicker rules={{required: true}} name={'expenseDate'} label='Data della spesa' placeholder='Data della spesa' />
                     </Grid2>
                     <Grid2 size={12}>
-                        <Input.TextField rules={{required: true}} name="test2" label="Ragione sociale dell’esercente" placeholder="Ragione sociale dell’esercente" />
+                        <Input.TextField rules={{required: true}} name="companyName" label="Ragione sociale dell’esercente" placeholder="Ragione sociale dell’esercente" />
                     </Grid2>
                     <Grid2 size={12}>
-                        <Input.TextField rules={{required: true, pattern: getRegex('fiscalCodePiva')}} name="test3" label="Codice fiscale o P.IVA" placeholder="Codice fiscale o P.IVA" />
+                        <Input.TextField rules={{required: true, pattern: getRegex('fiscalCodePiva')}} name="fiscalCode" label="Codice fiscale o P.IVA" placeholder="Codice fiscale o P.IVA" />
                     </Grid2>
                     <Grid2 size={12}>
                         <Input.SingleFileInput 
                             rules={{required: true}} 
                             errorMessages={{required: "Carica un documento per procedere"}} 
-                            name="file" 
+                            name="file"
+                            acceptFileUpload={["application/pdf"]}
                         />
                     </Grid2>
                     <Grid2 size={12}>

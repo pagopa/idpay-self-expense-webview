@@ -1,17 +1,17 @@
 import { TextFieldProps } from "@mui/material"
 import { ControllerProps } from "react-hook-form"
 
-export interface InputWrapperProps {
+export type InputWrapperProps = {
     error?: string
     infoLabel?: React.ReactNode
     children: React.ReactNode
     infoLabelId?: string
     errorId?: string
-    component?: React.ElementType,
+    component?: React.ElementType
     textAlign?: 'center' | 'left' | 'right'
 }
 
-export interface IInputProps {
+export type IInputProps = {
     name: string;
     label?: string | undefined;
     size?: 'small' | 'medium';
@@ -19,4 +19,5 @@ export interface IInputProps {
     rules?: ControllerProps['rules'];
     slotProps?: TextFieldProps["slotProps"];
     errorMessages?: Record<string, string>;
+    acceptFileUpload?: string[];
 }

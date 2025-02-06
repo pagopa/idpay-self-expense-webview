@@ -51,6 +51,14 @@ export default function NumericInput(props: InputProps) {
             onChange={(e) => {
               let value = e.target.value;
               value = value.replace(/[^0-9,.]/g, "");
+              const parts = value.split(",");
+              if (parts.length > 2) {
+                value = parts[0] + "," + parts.slice(1).join("");
+              }
+              // Block entry of more than two decimal places
+              if (parts.length === 2 && parts[1].length > 2) {
+                value = parts[0] + "," + parts[1].slice(0, 2);
+              }
               field.onChange(value);
             }}
             onBlur={() => {

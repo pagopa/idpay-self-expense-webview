@@ -8,15 +8,14 @@ import { IInputProps } from "../../types/input-types";
 
 export default function SingleFileInputs(props: IInputProps) {
   
-  const { name, rules, errorMessages} = props;
+  const { name, rules, errorMessages, acceptFileUpload = ["application/pdf"]} = props;
   const { formState, setError, clearErrors, setValue } = useFormContext();
   const error = formState.errors[name]?.message;
   const isRequired = formState.errors[name]?.type === 'required'
   const [file, setFile] = React.useState<File | null>(null);
-  const acceptFile = ["image/png"];
 
   const handleSelect = (file: File) => {
-    if (!acceptFile.includes(file.type)) {
+    if (!acceptFileUpload.includes(file.type)) {
       setError(name, {type: "custom", message: "Carica una ricevuta in formato .pfd"});
       setValue(name, null);
       return;
@@ -50,7 +49,7 @@ export default function SingleFileInputs(props: IInputProps) {
               vertical
               label=""
               value={file}
-              accept={acceptFile}
+              accept={acceptFileUpload}
               onFileSelected={(selectedFile) => {
                 field.onChange(selectedFile);
                 handleSelect(selectedFile);

@@ -9,20 +9,14 @@ import { IInputProps } from "../../types/input-types";
 export default function SingleFileInputs(props: IInputProps) {
   
   const { name, rules, errorMessages, acceptFileUpload = ["application/pdf"]} = props;
-  const { formState, setError, clearErrors, setValue } = useFormContext();
+  const { formState, trigger } = useFormContext();
   const error = formState.errors[name]?.message;
   const isRequired = formState.errors[name]?.type === 'required'
   const [file, setFile] = React.useState<File | null>(null);
 
   const handleSelect = (file: File) => {
-    if (!acceptFileUpload.includes(file.type)) {
-      setError(name, {type: "custom", message: "Carica una ricevuta in formato .pfd"});
-      setValue(name, null);
-      return;
-    }
-
+    trigger(name);
     setFile(file);
-    clearErrors();
   };
 
   const handleRemove = () => {

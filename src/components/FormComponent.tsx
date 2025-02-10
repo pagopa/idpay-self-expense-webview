@@ -52,7 +52,13 @@ export default function FormComponent() {
                     </Grid2>
                     <Grid2 size={12}>
                         <Input.SingleFileInput 
-                            rules={{required: true}} 
+                            rules={{
+                                required: true,
+                                validate: {
+                                    formatFormtter: (file) => file && file.name.endsWith(".pdf") || "Il formato non è supportato.",
+                                    sizeFormtter: (file) => file && file.size <= 5 * 1024 * 1024 || "Il file supera i 5 MB",
+                                }
+                            }} 
                             errorMessages={{required: "Carica un documento per procedere"}} 
                             name="file"
                             acceptFileUpload={["application/pdf"]}

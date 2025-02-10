@@ -7,13 +7,18 @@ import { DataForm } from "../types/idpay-types";
 import { mapFormToDTO } from "../utils/form-mapper";
 import * as Button from "../components/buttons/index"; 
 
-export default function FormComponent() {
+type IPropsForm = {
+    setView: (value: boolean) => void
+}
+
+export default function FormComponent({setView}: IPropsForm) {
 
     const methods = useForm<DataForm>();
 
     const onSubmit: SubmitHandler<DataForm> = async (formData: DataForm) => {
         const dto = await mapFormToDTO(formData, "Mario", "Rossi", "INIT");
-        console.log(dto)
+        console.log(dto);
+        setView(false);
     }
 
     const options = ['Francesca Maria Tiberti (TBRFNC9EE42H282N)']

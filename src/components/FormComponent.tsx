@@ -1,10 +1,11 @@
 import { useForm, FormProvider, SubmitHandler } from "react-hook-form"
-import { Button, Grid2, InputAdornment } from "@mui/material";
+import { Grid2, InputAdornment } from "@mui/material";
 import { getRegex } from "../utils/form-regex";
 import EuroIcon from '@mui/icons-material/Euro';
 import * as Input from "../components/inputs/index";
 import { DataForm } from "../types/idpay-types";
 import { mapFormToDTO } from "../utils/form-mapper";
+import * as Button from "../components/buttons/index"; 
 
 export default function FormComponent() {
 
@@ -67,14 +68,7 @@ export default function FormComponent() {
                         />
                     </Grid2>
                     <Grid2 size={12}>
-                        <Button
-                            fullWidth
-                            size="medium"
-                            variant="contained"
-                            type="submit"
-                        >
-                            Continua
-                        </Button>
+                        <Button.Default buttonText="Continua" type="submit" variant="contained" color="primary" />
                     </Grid2>
                 </Grid2>
             </form>

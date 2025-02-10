@@ -20,7 +20,5 @@
 
 .custom-wrapp .MuiBox-root {
     min-height: 161px !important;
-    gap: 12px;
-    display: flex;
-    flex-direction: column;
+    row-gap: 12px;
 }

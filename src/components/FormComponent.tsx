@@ -15,12 +15,14 @@ export default function FormComponent() {
         console.log(dto)
     }
 
+    const options = ['Francesca Maria Tiberti (TBRFNC9EE42H282N)']
+
     return (
         <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(onSubmit)}>
                 <Grid2 container rowSpacing={3} columnSpacing={3}>
                     <Grid2 size={12}>
-                        <Input.Select rules={{required: true}} name="entityId" label="Indica il figlio" placeholder="Indica il figlio" />
+                        <Input.Select options={options} rules={{required: true}} name="entityId" label="Indica il figlio" placeholder="Indica il figlio" />
                     </Grid2>
                     <Grid2 size={6}>
                         <Input.NumericInput

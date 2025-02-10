@@ -11,7 +11,7 @@ export type InputWrapperProps = {
     textAlign?: 'center' | 'left' | 'right'
 }
 
-export type IInputProps = {
+export type IInputProps<T> = {
     name: string;
     label?: string | undefined;
     size?: 'small' | 'medium';
@@ -20,4 +20,7 @@ export type IInputProps = {
     slotProps?: TextFieldProps["slotProps"];
     errorMessages?: Record<string, string>;
     acceptFileUpload?: string[];
+    disabled?: boolean;
+    defaultValue?: string;
+    options?: T[];
 }

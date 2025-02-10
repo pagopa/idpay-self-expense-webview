@@ -7,9 +7,8 @@ import { IInputProps } from "../../types/input-types";
 export default function SelectInput(props: IInputProps) {
 
     const { formState } = useFormContext();
-    const { name, label, size = 'medium', rules} = props;
+    const { name, label, size = 'medium', rules, options} = props;
     const error = formState.errors[name]?.message as string | undefined;
-    const options = ['option1', 'option2', 'option3']
 
     return (
         <InputWrapper error={error}>
@@ -27,6 +26,17 @@ export default function SelectInput(props: IInputProps) {
                         onChange={(e) => field.onChange(e.target.value)}
                         value={ field.value }
                         size={ size }
+                        renderValue={(selected) => (
+                            <span style={{ 
+                                overflow: "hidden", 
+                                textOverflow: "ellipsis", 
+                                whiteSpace: "nowrap", 
+                                display: "block",
+                                maxWidth: "95%",
+                            }}>
+                                {selected}
+                            </span>
+                        )}
                     >
                         {
                             options?.map((op: string) => (

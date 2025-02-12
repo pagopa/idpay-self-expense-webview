@@ -11,7 +11,7 @@ export type InputWrapperProps = {
     textAlign?: 'center' | 'left' | 'right'
 }
 
-export type IInputProps<T> = {
+export type IInputProps<T = unknown> = {
     name: string;
     label?: string | undefined;
     size?: 'small' | 'medium';

@@ -7,18 +7,19 @@ import { IInputProps } from "../../types/input-types";
 export default function SelectInput(props: IInputProps) {
 
     const { formState } = useFormContext();
-    const { name, label, size = 'medium', rules, options} = props;
+    const { name, label, size = 'medium', rules, options, defaultValue = "", disabled} = props;
     const error = formState.errors[name]?.message as string | undefined;
 
     return (
         <InputWrapper error={error}>
             <InputLabel id={name}>{ label }</InputLabel>
             <Controller
-                defaultValue=""
+                defaultValue={defaultValue}
                 name={name}
                 rules={getValidationRules(rules)}
                 render={({ field }) => (
                     <Select
+                        disabled={disabled}
                         error={Boolean(error)}
                         id={ label }
                         label={ label }

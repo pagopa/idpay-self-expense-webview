@@ -4,7 +4,8 @@ export type DataForm = {
     companyName: string
     entityId: string
     fiscalCode: string
-    file: File
+    fileList: File[]
+    description: string
 }
 
 export type FormtoDTO = {
@@ -16,7 +17,8 @@ export type FormtoDTO = {
     entityId: string
     fiscalCode: string
     initiativeId: string
-    file: FileData
+    fileList: FileData[]
+    description: string
 }
 
 export type FileData = {

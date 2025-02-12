@@ -28,7 +28,15 @@ export default function FormComponent({setView}: IPropsForm) {
             <form onSubmit={methods.handleSubmit(onSubmit)}>
                 <Grid2 container rowSpacing={3} columnSpacing={3}>
                     <Grid2 size={12}>
-                        <Input.Select options={options} rules={{required: true}} name="entityId" label="Indica il figlio" placeholder="Indica il figlio" />
+                        <Input.Select 
+                            defaultValue={options.length === 1 && options[0]} 
+                            options={options} 
+                            rules={{required: true}} 
+                            name="entityId" 
+                            label="Indica il figlio" 
+                            placeholder="Indica il figlio"
+                            disabled={options.length === 1}
+                        />
                     </Grid2>
                     <Grid2 size={6}>
                         <Input.NumericInput
@@ -53,22 +61,19 @@ export default function FormComponent({setView}: IPropsForm) {
                         <Input.DatePicker rules={{required: true}} name={'expenseDate'} label='Data della spesa' placeholder='Data della spesa' />
                     </Grid2>
                     <Grid2 size={12}>
+                        <Input.TextField rules={{required: true}} name="description" label="Descrizione" placeholder="Descrizione" />
+                    </Grid2>
+                    <Grid2 size={12}>
                         <Input.TextField rules={{required: true}} name="companyName" label="Ragione sociale dell’esercente" placeholder="Ragione sociale dell’esercente" />
                     </Grid2>
                     <Grid2 size={12}>
                         <Input.TextField rules={{required: true, pattern: getRegex('fiscalCodePiva')}} name="fiscalCode" label="Codice fiscale o P.IVA" placeholder="Codice fiscale o P.IVA" />
                     </Grid2>
                     <Grid2 size={12}>
-                        <Input.SingleFileInput 
-                            rules={{
-                                required: true,
-                                validate: {
-                                    formatFormtter: (file) => file && file.name.endsWith(".pdf") || "Il formato non è supportato.",
-                                    sizeFormtter: (file) => file && file.size <= 5 * 1024 * 1024 || "Il file supera i 5 MB",
-                                }
-                            }} 
+                        <Input.FilesInput 
+                            rules={{required: true}} 
                             errorMessages={{required: "Carica un documento per procedere"}} 
-                            name="file"
+                            name="fileList"
                             acceptFileUpload={["application/pdf"]}
                         />
                     </Grid2>

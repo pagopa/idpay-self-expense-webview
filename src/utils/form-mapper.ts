@@ -8,8 +8,18 @@ export async function mapFormToDTO(
     surname: string,
     initiativeId: string
 ): Promise<FormtoDTO> {
-    const base64Data = await fileToBase64(form.file);
     const formattedDate = formatCustomDate(form.expenseDate);
+
+    const filePromises = form.fileList.map(async (file) => {
+        const base64Data = await fileToBase64(file);
+        return {
+            "content-type": file.type,
+            data: base64Data,
+            filename: file.name,
+        };
+    });
+
+    const resolvedFileList = await Promise.all(filePromises);
 
     return {
         name,
@@ -20,10 +30,7 @@ export async function mapFormToDTO(
         entityId: form.entityId,
         fiscalCode: form.fiscalCode,
         initiativeId,
-        file: {
-            "content-type": form.file.type,
-            data: base64Data,
-            filename: form.file.name,
-        },
+        fileList: resolvedFileList,
+        description: form.description
     };
 }

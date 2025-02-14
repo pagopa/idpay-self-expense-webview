@@ -1,12 +1,13 @@
 import InfoPage from "../components/InfoPage";
 import successIcon from "../assets/icons/success.svg";
 import { clearAuthToken } from "../hooks/useJwt";
+import { REDIRECT_APP_URL } from "../config/redirect-url";
 
 export default function ConfirmedPage() {
 
     const handleBtnAction = () => {
         clearAuthToken();
-        window.location.href = ""
+        window.location.href = REDIRECT_APP_URL;
     }
 
     return(

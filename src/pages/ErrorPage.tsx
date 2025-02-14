@@ -1,13 +1,12 @@
 
 import GenericError from "../assets/icons/generic-error.svg";
 import InfoPage from "../components/InfoPage";
+import { REDIRECT_APP_URL } from "../config/redirect-url";
 
 export default function ErrorPage() {
 
-    const appMobileUrl = "myapp://specific-page";
-
     const handleClick = () => {
-        window.location.href = appMobileUrl;
+        window.location.href = REDIRECT_APP_URL;
     }
 
     return (

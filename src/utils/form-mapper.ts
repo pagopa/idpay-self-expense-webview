@@ -27,7 +27,6 @@ export async function mapFormToDTO(
         companyName: form.companyName,
         entityId: form.fiscalCode,
         fiscalCode: userId,
-        initiativeId: '',
         fileList: resolvedFileList,
         description: form.description
     };

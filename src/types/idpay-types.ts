@@ -23,7 +23,6 @@ export type FormtoDTO = {
     companyName: string
     entityId: string
     fiscalCode: string
-    initiativeId: string
     fileList: FileData[]
     description: string
 }

@@ -15,7 +15,7 @@ export default function ErrorPage() {
             icon={GenericError}
             sizeIcon={124}
             title="Si è verificato un errore imprevisto"
-            description="Questo è un esempio di testo descrittivo per la tua pagina.Puoi modificarlo come preferisci."
+            description=""
             buttonText="Chiudi"
             buttonAction={handleClick}
         />

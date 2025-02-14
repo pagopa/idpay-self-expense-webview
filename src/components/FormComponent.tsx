@@ -38,7 +38,7 @@ export default function FormComponent({ setView }: IPropsForm) {
             {loadingChild ? <Loader /> : 
             <FormProvider {...methods}>
                 <form onSubmit={methods.handleSubmit(onSubmit)}>
-                    <Grid2 container rowSpacing={3} columnSpacing={3}>
+                    <Grid2 container rowSpacing={2} columnSpacing={2} sx={{mt: 2}}>
                         <Grid2 size={12}>
                             <Input.Select
                                 defaultValue={dataChild?.childList.length === 1 ? dataChild?.childList[0] : ''}
@@ -80,7 +80,7 @@ export default function FormComponent({ setView }: IPropsForm) {
                             <Input.TextField rules={{ required: true }} name="companyName" label="Ragione sociale dell’esercente" placeholder="Ragione sociale dell’esercente" />
                         </Grid2>
                         <Grid2 size={12}>
-                            <Input.TextField rules={{ required: true, pattern: getRegex('fiscalCodePiva') }} name="fiscalCode" label="Codice fiscale o P.IVA" placeholder="Codice fiscale o P.IVA" />
+                            <Input.TextField rules={{ required: true, pattern: getRegex('fiscalCodePiva') }} name="fiscalCode" label="Codice fiscale o P.IVA" placeholder="Codice fiscale o P.IVA" isUppercase />
                         </Grid2>
                         <Grid2 size={12}>
                             <Input.FilesInput

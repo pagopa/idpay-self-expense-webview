@@ -23,6 +23,7 @@ export type IInputProps = {
     disabled?: boolean;
     defaultValue?: OptionSelect;
     options?: OptionSelect[];
+    isUppercase?: boolean 
 }
 
 export type OptionSelect = string | number | { [key: string]: string | number };

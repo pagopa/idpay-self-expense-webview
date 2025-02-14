@@ -6,7 +6,7 @@ import { IInputProps } from "../../types/input-types";
 
 export default function TextInput(props: IInputProps) {
 
-    const { name, size = 'medium', label, placeholder, rules, slotProps } = props;
+    const { name, size = 'medium', label, placeholder, rules, slotProps, isUppercase = false } = props;
     const { formState } = useFormContext();
     const error = formState.errors[name]?.message as string | undefined;
 
@@ -25,6 +25,7 @@ export default function TextInput(props: IInputProps) {
                             },
                         }}
                         {...field}
+                        onChange={(e) => field.onChange(isUppercase ? e.target.value.toUpperCase() : e.target.value)}
                         label={label}
                         placeholder={placeholder}
                         size={size}

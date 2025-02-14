@@ -37,6 +37,7 @@ export default function NumericInput(props: InputProps) {
             slotProps={{
               input: {
                 ...slotProps?.input,
+                autoComplete: "off",
                 style: {
                     appearance: "textfield",
                     WebkitAppearance: "none",

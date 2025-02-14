@@ -1,10 +1,12 @@
 import InfoPage from "../components/InfoPage";
 import successIcon from "../assets/icons/success.svg";
+import { clearAuthToken } from "../hooks/useJwt";
 
 export default function ConfirmedPage() {
 
     const handleBtnAction = () => {
-        console.log('handleBtnAction')
+        clearAuthToken();
+        window.location.href = ""
     }
 
     return(

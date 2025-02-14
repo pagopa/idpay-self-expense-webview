@@ -39,5 +39,5 @@ export function saveAuthToken(token: AuthToken): void {
 export function clearAuthToken(): void {
   localStorage.removeItem('authToken');
   localStorage.removeItem('tokenIssuedAt');
-  window.dispatchEvent(new Event('storage'));
+  window.dispatchEvent(new Event('storage'));  
 }

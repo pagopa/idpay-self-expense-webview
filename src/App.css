@@ -7,18 +7,15 @@
 }
 
 .MuiInputAdornment-root {
-    margin-right: 3.5px !important;
+    margin-right: 3px !important;
 }
 
-.MuiInputBase-root {
-    padding-left: 12px !important
-}
- 
 .MuiInputAdornment-root svg {
     color: #5C6F82;
 }
 
-.custom-wrapp .MuiBox-root {
-    min-height: 161px !important;
-    row-gap: 12px;
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
 }

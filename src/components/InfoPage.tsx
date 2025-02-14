@@ -1,7 +1,5 @@
 
 import { Box, Container, Typography } from "@mui/material";
-import NakedBtn from "../components/buttons/NakedBtn";
-import DefaultBtn from "./buttons/DefaultBtn";
 import * as Button from "./buttons/index";
 
 export type IProps = {

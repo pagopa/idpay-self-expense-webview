@@ -1,5 +1,7 @@
 import { lazy } from "react";
 import { Navigate, useRoutes } from "react-router-dom";
+import PrivateRoute from "./guard/PrivateGuard";
+import PublicGuard from "./guard/PublicGuard";
 
 const AuthPage = lazy(()=> import("../pages/AuthPage"));
 const ErrorPage = lazy(()=> import("../pages/ErrorPage"));
@@ -14,15 +16,22 @@ export default function RoutesList() {
         },
         {
             path: 'form',
-            element: <FormPage />
+            element: 
+            <PrivateRoute>
+              <FormPage />  
+            </PrivateRoute>
         },
         {
             path: 'error',
-            element: <ErrorPage />
+            element: <PublicGuard>
+                <ErrorPage />
+            </PublicGuard>
         },
         {
             path: 'confirmed',
-            element: <ConfirmedPage />
+            element: <PrivateRoute>
+                <ConfirmedPage />
+            </PrivateRoute>
         },
         {
             path: '*',

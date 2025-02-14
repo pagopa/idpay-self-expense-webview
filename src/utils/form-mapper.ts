@@ -4,9 +4,7 @@ import { fileToBase64 } from "./fileBase64.utils";
 
 export async function mapFormToDTO(
     form: DataForm,
-    name: string,
-    surname: string,
-    initiativeId: string
+    userId: string
 ): Promise<FormtoDTO> {
     const formattedDate = formatCustomDate(form.expenseDate);
 
@@ -22,14 +20,14 @@ export async function mapFormToDTO(
     const resolvedFileList = await Promise.all(filePromises);
 
     return {
-        name,
-        surname,
-        amount: form.amount,
+        name: form.entityId.nome,
+        surname: form.entityId.cognome,
+        amount: Number(form.amount.replace(',', '.')),
         expenseDate: formattedDate,
         companyName: form.companyName,
-        entityId: form.entityId,
-        fiscalCode: form.fiscalCode,
-        initiativeId,
+        entityId: form.fiscalCode,
+        fiscalCode: userId,
+        initiativeId: '',
         fileList: resolvedFileList,
         description: form.description
     };

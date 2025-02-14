@@ -1,11 +1,18 @@
 export type DataForm = {
-    amount: number
+    amount: string
     expenseDate: string
     companyName: string
-    entityId: string
+    entityId: EntityId
     fiscalCode: string
     fileList: File[]
     description: string
+}
+export type EntityId = {
+    cognome: string
+    label: string
+    nome: string
+    userId: string
+    value: string
 }
 
 export type FormtoDTO = {

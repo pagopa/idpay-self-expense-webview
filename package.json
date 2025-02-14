@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "start-dev": "vite --mode development",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -18,6 +19,8 @@
     "@mui/material": "^6.4.3",
     "@mui/x-date-pickers": "^7.25.0",
     "@pagopa/mui-italia": "^1.6.0-alpha.20241128151814",
+    "@tanstack/react-query": "^5.66.0",
+    "axios": "^1.7.9",
     "date-fns": "^4.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

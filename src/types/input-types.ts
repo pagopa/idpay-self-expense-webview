@@ -11,7 +11,7 @@ export type InputWrapperProps = {
     textAlign?: 'center' | 'left' | 'right'
 }
 
-export type IInputProps<T = unknown> = {
+export type IInputProps = {
     name: string;
     label?: string | undefined;
     size?: 'small' | 'medium';
@@ -21,6 +21,8 @@ export type IInputProps<T = unknown> = {
     errorMessages?: Record<string, string>;
     acceptFileUpload?: string[];
     disabled?: boolean;
-    defaultValue?: string;
-    options?: T[];
+    defaultValue?: OptionSelect;
+    options?: OptionSelect[];
 }
+
+export type OptionSelect = string | number | { [key: string]: string | number };

@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { clearAuthToken } from '../hooks/useJwt';
-
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const api = axios.create({

@@ -107,6 +107,7 @@ stages:
             displayName: 'Sync checkout storage'
             inputs:
               azureSubscription: '$(AZURE_SUBSCRIPTION)'
+              scriptType: 'bash'
               scriptLocation: inlineScript
               inlineScript: |
                 az storage blob sync --container '$(blob_container_name)' --account-name $(storage_account) -s "$(Pipeline.Workspace)/Bundle" --destination '$(basePath)/'
@@ -115,6 +116,7 @@ stages:
             displayName: 'Purge CDN endpoint'
             inputs:
               azureSubscription: '$(AZURE_SUBSCRIPTION)'
+              scriptType: 'bash'
               scriptLocation: inlineScript
               inlineScript: |
                 az cdn endpoint purge -g $(resource_group) -n $(cdn_endpoint) --profile-name $(cdn_profile) --content-paths "/$(basePath)" "/$(basePath)/*" "/"

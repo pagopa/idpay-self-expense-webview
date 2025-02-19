@@ -83,19 +83,12 @@ stages:
             parameters:
               nodeVersion: $(NODE_VERSION)
           - bash: |
-              yarn generate
               yarn build
             displayName: 'Build files'
             env:
-              INLINE_RUNTIME_CHUNK: 'false'
               REACT_APP_ENV: '${{ parameters.environment }}'
               VITE_API_URL: '$(vite_api_url)'
 
-          - bash: |
-              printf "$EXECUTION_ID\n$(git name-rev --name-only FETCH_HEAD) $(git rev-parse HEAD)" > $(System.DefaultWorkingDirectory)/build/build.info
-            env:
-              EXECUTION_ID: '$(Build.BuildNumber) - $(Build.DefinitionName)($(Build.BuildId))'
-            displayName: 'Build info'
           - publish: $(System.DefaultWorkingDirectory)/build
             artifact: Bundle
 

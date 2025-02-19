@@ -83,20 +83,13 @@ stages:
             parameters:
               nodeVersion: $(NODE_VERSION)
           - bash: |
-              yarn generate
               yarn build
             displayName: 'Build files'
             env:
-              INLINE_RUNTIME_CHUNK: 'false'
               REACT_APP_ENV: '${{ parameters.environment }}'
               VITE_API_URL: '$(vite_api_url)'
 
-          - bash: |
-              printf "$EXECUTION_ID\n$(git name-rev --name-only FETCH_HEAD) $(git rev-parse HEAD)" > $(System.DefaultWorkingDirectory)/build/build.info
-            env:
-              EXECUTION_ID: '$(Build.BuildNumber) - $(Build.DefinitionName)($(Build.BuildId))'
-            displayName: 'Build info'
-          - publish: $(System.DefaultWorkingDirectory)/build
+          - publish: dist
             artifact: Bundle
 
   # Deploy bundle
@@ -110,7 +103,7 @@ stages:
           - download: current
             artifact: Bundle
 
-          - task: AzureCLI@1
+          - task: AzureCLI@2
             displayName: 'Sync checkout storage'
             inputs:
               azureSubscription: '$(AZURE_SUBSCRIPTION)'
@@ -118,7 +111,7 @@ stages:
               inlineScript: |
                 az storage blob sync --container '$(blob_container_name)' --account-name $(storage_account) -s "$(Pipeline.Workspace)/Bundle" --destination '$(basePath)/'
 
-          - task: AzureCLI@1
+          - task: AzureCLI@2
             displayName: 'Purge CDN endpoint'
             inputs:
               azureSubscription: '$(AZURE_SUBSCRIPTION)'

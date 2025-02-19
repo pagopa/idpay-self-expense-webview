@@ -1,0 +1,127 @@
+
+# Azure DevOps pipeline to release a new version and deploy to selected environment.
+
+parameters:
+  - name: 'environment'
+    displayName: 'The environment where to deploy'
+    type: string
+    values:
+      - DEV
+      - UAT
+      - PROD
+    default: DEV
+
+variables:
+  NODE_VERSION: '22.14.0'
+  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
+  # Execute agents (jobs) on latest Ubuntu version.
+  vmImageNameDefault: 'ubuntu-latest'
+
+  basePath: ricevute
+
+  # global variables
+
+  ${{ if eq(parameters.environment, 'DEV') }}:
+    azure_subscription: $(DEV_AZURE_SUBSCRIPTION)
+    cdn_endpoint: '$(DEV_CDN_ENDPOINT)'
+    cdn_profile: '$(DEV_CDN_PROFILE)'
+    resource_group: '$(DEV_RESOURCE_GROUP)'
+    storage_account: '$(DEV_STORAGE_ACCOUNT)'
+
+    react_app_url_cdn: '$(DEV_REACT_APP_URL_CDN)'
+    vite_api_url: 'https://api-io.dev.cstar.pagopa.it/idpay/self-expense'
+
+  ${{ elseif eq(parameters.environment, 'UAT') }}:
+    azure_subscription: $(UAT_AZURE_SUBSCRIPTION)
+    cdn_endpoint: '$(UAT_CDN_ENDPOINT)'
+    cdn_profile: '$(UAT_CDN_PROFILE)'
+    resource_group: '$(UAT_RESOURCE_GROUP)'
+    storage_account: '$(UAT_STORAGE_ACCOUNT)'
+
+    react_app_url_cdn: '$(UAT_REACT_APP_URL_CDN)'
+    vite_api_url: 'https://api-io.uat.cstar.pagopa.it/idpay/self-expense'
+
+  ${{ elseif eq(parameters.environment, 'PROD') }}:
+    azure_subscription: $(PROD_AZURE_SUBSCRIPTION)
+    cdn_endpoint: '$(PROD_CDN_ENDPOINT)'
+    cdn_profile: '$(PROD_CDN_PROFILE)'
+    resource_group: '$(PROD_RESOURCE_GROUP)'
+    storage_account: '$(PROD_STORAGE_ACCOUNT)'
+
+    react_app_url_cdn: '$(PROD_REACT_APP_URL_CDN)'
+    vite_api_url: 'https://api-io.cstar.pagopa.it/idpay/self-expense'
+
+# Only manual activations are intended
+trigger: none
+pr: none
+
+resources:
+  repositories:
+    - repository: pagopaCommons
+      type: github
+      name: pagopa/azure-pipeline-templates
+      ref: refs/tags/v19
+      endpoint: 'io-azure-devops-github-ro'
+    - repository: selfcareCommon
+      type: github
+      name: pagopa/selfcare-common-frontend
+      ref: refs/heads/main
+      endpoint: 'io-azure-devops-github-ro'
+
+pool:
+  vmImage: '$(vmImageNameDefault)'
+
+stages:
+  # Prepare Artifact with application bundle
+  - stage: Prepare_artifact
+    condition: or(eq('${{ parameters.environment }}', 'DEV'), succeeded())
+    jobs:
+      - job: 'make_build'
+        steps:
+          - template: .devops/azure-templates/setup-yarn-cache.yml@selfcareCommon
+          - template: templates/node-job-setup/template.yaml@pagopaCommons
+            parameters:
+              nodeVersion: $(NODE_VERSION)
+          - bash: |
+              yarn generate
+              yarn build
+            displayName: 'Build files'
+            env:
+              INLINE_RUNTIME_CHUNK: 'false'
+              REACT_APP_ENV: '${{ parameters.environment }}'
+              VITE_API_URL: '$(vite_api_url)'
+
+          - bash: |
+              printf "$EXECUTION_ID\n$(git name-rev --name-only FETCH_HEAD) $(git rev-parse HEAD)" > $(System.DefaultWorkingDirectory)/build/build.info
+            env:
+              EXECUTION_ID: '$(Build.BuildNumber) - $(Build.DefinitionName)($(Build.BuildId))'
+            displayName: 'Build info'
+          - publish: $(System.DefaultWorkingDirectory)/build
+            artifact: Bundle
+
+  # Deploy bundle
+  - stage: 'Deploy_to_${{ parameters.environment }}'
+    condition: or(eq('${{ parameters.environment }}', 'DEV'), succeeded())
+    jobs:
+      - job: 'Deploy_to_${{ parameters.environment }}'
+        steps:
+          - checkout: none
+
+          - download: current
+            artifact: Bundle
+
+          - task: AzureCLI@1
+            displayName: 'Sync checkout storage'
+            inputs:
+              azureSubscription: '$(AZURE_SUBSCRIPTION)'
+              scriptLocation: inlineScript
+              inlineScript: |
+                az storage blob sync --container '$(blob_container_name)' --account-name $(storage_account) -s "$(Pipeline.Workspace)/Bundle" --destination '$(basePath)/'
+
+          - task: AzureCLI@1
+            displayName: 'Purge CDN endpoint'
+            inputs:
+              azureSubscription: '$(AZURE_SUBSCRIPTION)'
+              scriptLocation: inlineScript
+              inlineScript: |
+                az cdn endpoint purge -g $(resource_group) -n $(cdn_endpoint) --profile-name $(cdn_profile) --content-paths "/$(basePath)" "/$(basePath)/*" "/"

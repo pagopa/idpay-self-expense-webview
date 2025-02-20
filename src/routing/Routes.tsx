@@ -11,31 +11,31 @@ const ConfirmedPage = lazy(()=> import("../pages/ConfirmedPage"));
 export default function RoutesList() {
     return useRoutes([
         {
-            path: '/',
+            path: '/session/:sessionId',
             element: <AuthPage />
         },
         {
-            path: 'form',
+            path: '/form',
             element: 
             <PrivateRoute>
               <FormPage />  
             </PrivateRoute>
         },
         {
-            path: 'error',
-            element: <PublicGuard>
-                <ErrorPage />
-            </PublicGuard>
-        },
-        {
-            path: 'confirmed',
+            path: '/confirmed',
             element: <PrivateRoute>
                 <ConfirmedPage />
             </PrivateRoute>
         },
         {
+            path: '/error',
+            element: <PublicGuard>
+                <ErrorPage />
+            </PublicGuard>
+        },
+        {
             path: '*',
-            element: <Navigate to="/" replace />
+            element: <Navigate to="/error" replace />
         }
     ])
 }

@@ -22,8 +22,8 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    const basename = import.meta.env.MODE === "development" ? "/" : "/ricevute";
-    window.location.href = basename;
+    const basename = import.meta.env.MODE === "development" ? "/" : "/ricevute/";
+    window.location.href = `${basename}error`;
     return Promise.reject(error);
   }
 );

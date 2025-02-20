@@ -1,5 +1,5 @@
 import { startTransition, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useSessionAuth from "../hooks/useSessionAuthorization";
 import { clearAuthToken, saveAuthToken } from "../hooks/useJwt";
 import Loader from "../components/shared/Loader";
@@ -7,10 +7,8 @@ import Loader from "../components/shared/Loader";
 
 export default function AuthPage() {
     const navigate = useNavigate();
-    const location = useLocation();
-    const searchParams = new URLSearchParams(location.search);
-    const sessionId = searchParams.get('code');
-    const { isLoading, isAuth, isError, data } = useSessionAuth(sessionId);
+    const { sessionId } = useParams();
+    const { isLoading, isAuth, isError, data } = useSessionAuth(sessionId ?? null);
 
     useEffect(() => {
         const storedToken = localStorage.getItem('authToken');

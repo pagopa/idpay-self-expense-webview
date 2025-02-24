@@ -23,6 +23,7 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     const basename = import.meta.env.MODE === "development" ? "/" : "/ricevute/";
+    localStorage.clear();
     window.location.href = `${basename}error`;
     return Promise.reject(error);
   }

@@ -7,6 +7,6 @@ export function formatCustomDate(dateString: string | Date): string {
     if (isNaN(date.getTime())) {
       throw new Error("Invalid date");
     }
-  
-    return format(date, "dd/MM/yyyy'T'HH:mm:ss", { locale: it });
-  }
+
+    return format(date, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", { locale: it });
+}

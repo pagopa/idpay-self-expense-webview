@@ -23,13 +23,13 @@ export type FormtoDTO = {
     companyName: string
     entityId: string
     fiscalCode: string
-    fileList: FileData[]
+    // fileList: FileData[]
     description: string
 }
 
-export type FileData = {
-    'content-type': string
-    data: string
-    filename: string
-}
+// export type FileData = {
+//     'content-type': string
+//     data: string
+//     filename: string
+// }
 

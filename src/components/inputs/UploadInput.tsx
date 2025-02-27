@@ -11,7 +11,7 @@ import { handleRemove, handleSelect } from "../../utils/fileUpload-utils";
 
 export default function FilesInput(props: IInputProps) {
 
-  const { name, rules, errorMessages, acceptFileUpload = ["application/pdf"] } = props;
+  const { name, rules, errorMessages, acceptFileUpload = ["application/pdf"], validExtensions } = props;
   const { formState, trigger, setValue } = useFormContext();
   const error = formState.errors[name]?.message;
   const isRequired = formState.errors[name]?.type === 'required'
@@ -66,7 +66,8 @@ export default function FilesInput(props: IInputProps) {
                         setValue,
                         setCustomError,
                         trigger,
-                        name
+                        name,
+                        validExtensions
                       });
                     }
 
@@ -81,7 +82,7 @@ export default function FilesInput(props: IInputProps) {
                     Carica documenti
                   </Typography>
                   <Typography variant="caption" sx={{ color: "#5C6F82" }}>
-                    Carica un file in formato {"<PDF>"} fino a 5 MB.
+                    Carica un file in formato {"<PDF, PNG, JPEG, JPG>"} fino a 5 MB.
                   </Typography>
                 </label>
               </Box>

@@ -8,7 +8,8 @@ type PropFunctions = {
     setCustomError: (error: { name: string; message: string }[] | null) => void,
     trigger: UseFormTrigger<FieldValues>,
     name: string,
-    index?: number
+    index?: number,
+    validExtensions: string[]
 }
 
 export function handleSelect({
@@ -18,15 +19,17 @@ export function handleSelect({
     setValue,
     setCustomError,
     trigger,
-    name
+    name,
+    validExtensions
 }: PropFunctions) {
 
     const validFiles: File[] = [...existingFiles];
     const errors: { name: string; message: string }[] = [];
 
     filesUploaded.forEach((file) => {
-        if (!file.name?.endsWith(".pdf")) {
-            errors.push({ name: file.name, message: "Formato non supportato (solo PDF)" });
+        const fileExtension = file.name?.toLowerCase().slice(file.name.lastIndexOf("."));
+        if(!validExtensions.includes(fileExtension)) {
+            errors.push({ name: file.name, message: "Formato non supportato (solo PDF, PNG, JPEG, JPG)" });
         } else if (file.size > 5 * 1024 * 1024) {
             errors.push({ name: file.name, message: "Il file supera i 5MB" });
         } else {

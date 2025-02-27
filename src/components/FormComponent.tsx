@@ -87,7 +87,8 @@ export default function FormComponent({ setView }: IPropsForm) {
                                 rules={{ required: true }}
                                 errorMessages={{ required: "Carica un documento per procedere" }}
                                 name="fileList"
-                                acceptFileUpload={["application/pdf"]}
+                                acceptFileUpload={["application/pdf", "image/png", "image/jpeg", "image/jpg"]}
+                                validExtensions={[".pdf", ".png", ".jpeg", ".jpg"]}
                             />
                         </Grid2>
                         <Grid2 size={12}>

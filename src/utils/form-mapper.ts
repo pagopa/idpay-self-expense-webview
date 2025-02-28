@@ -1,33 +1,31 @@
-import { DataForm, FormtoDTO } from "../types/idpay-types";
+import { DataForm } from "../types/idpay-types";
 import { formatCustomDate } from "./date.utils";
-import { fileToBase64 } from "./fileBase64.utils";
 
 export async function mapFormToDTO(
     form: DataForm,
     userId: string
-): Promise<FormtoDTO> {
+): Promise<FormData> {
     const formattedDate = formatCustomDate(form.expenseDate);
+    const dto = new FormData(); 
 
-    const filePromises = form.fileList.map(async (file) => {
-        const base64Data = await fileToBase64(file);
-        return {
-            "content-type": file.type,
-            data: base64Data,
-            filename: file.name,
-        };
-    });
-
-    const resolvedFileList = await Promise.all(filePromises);
-
-    return {
+    const mappedData = {
         name: form.entityId.nome,
         surname: form.entityId.cognome,
-        amount: Number(form.amount.replace(',', '.')),
+        amount: form.amount.replace(',', '.'),
         expenseDate: formattedDate,
         companyName: form.companyName,
         entityId: form.fiscalCode,
         fiscalCode: userId,
-        fileList: resolvedFileList,
         description: form.description
     };
+
+    dto.append('expenseData', JSON.stringify(mappedData));
+
+    if (form.fileList && form.fileList.length > 0) {
+        Array.from(form.fileList).forEach((file) => {
+            dto.append("files", file);
+        });
+    }
+
+    return dto;
 }

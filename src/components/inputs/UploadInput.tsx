@@ -2,14 +2,14 @@ import { Controller, useFormContext } from "react-hook-form";
 import AlertComponent from "../shared/AlertComponent";
 import InputWrapper from "../InputsWrapper";
 import { getValidationRules } from "../../utils/form-utils";
-import { IInputProps } from "../../types/input-types";
+import { IUploadInputProps } from "../../types/input-types";
 import { Box, Typography } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import BoxInfoFile from "./BoxInfoFile";
 import { useState } from "react";
 import { handleRemove, handleSelect } from "../../utils/fileUpload-utils";
 
-export default function FilesInput(props: IInputProps) {
+export default function FilesInput(props: IUploadInputProps) {
 
   const { name, rules, errorMessages, acceptFileUpload = ["application/pdf"], validExtensions } = props;
   const { formState, trigger, setValue } = useFormContext();
@@ -95,7 +95,8 @@ export default function FilesInput(props: IInputProps) {
                   trigger,
                   name,
                   index,
-                  filesUploaded: files
+                  filesUploaded: files,
+                  validExtensions
                 })}
                 />
               ))}

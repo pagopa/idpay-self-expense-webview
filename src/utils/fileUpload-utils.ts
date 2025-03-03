@@ -28,6 +28,7 @@ export function handleSelect({
 
     filesUploaded.forEach((file) => {
         const fileExtension = file.name?.toLowerCase().slice(file.name.lastIndexOf("."));
+
         if(!validExtensions.includes(fileExtension)) {
             errors.push({ name: file.name, message: "Formato non supportato (solo PDF, PNG, JPEG, JPG)" });
         } else if (file.size > 5 * 1024 * 1024) {

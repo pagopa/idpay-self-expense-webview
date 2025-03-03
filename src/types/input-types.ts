@@ -24,7 +24,10 @@ export type IInputProps = {
     defaultValue?: OptionSelect;
     options?: OptionSelect[];
     isUppercase?: boolean;
-    validExtensions?: string[];
 }
 
 export type OptionSelect = string | number | { [key: string]: string | number };
+
+export type IUploadInputProps = IInputProps & {
+    validExtensions: string[];
+};

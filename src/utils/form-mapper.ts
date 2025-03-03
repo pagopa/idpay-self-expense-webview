@@ -19,7 +19,7 @@ export async function mapFormToDTO(
         description: form.description
     };
 
-    dto.append('expenseData', JSON.stringify(mappedData));
+    dto.append("expenseData", new Blob([JSON.stringify(mappedData)], { type: "application/json" }));
 
     if (form.fileList && form.fileList.length > 0) {
         Array.from(form.fileList).forEach((file) => {
